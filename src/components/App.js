@@ -4,7 +4,6 @@ import NewTaskForm from "./NewTaskForm";
 import TaskList from "./TaskList";
 
 import { CATEGORIES, TASKS } from "../data";
-console.log("Here's the data you're working with");
 console.log({ CATEGORIES, TASKS });
 
 
@@ -12,30 +11,39 @@ function App() {
 
   const [ filteredCategories, setFilteredCategories ] = useState('All')
   const [ tasks, setTasks ] = useState(TASKS)
-  console.log(tasks)
-
+ 
+function filterTaskByCat(cat) {
+  setFilteredCategories(cat);
   const filteredTasks = TASKS.filter((task) => {
-    if(filteredCategories === 'All') {
-      return task
+    if (cat === "All") {
+      return task;
     } else {
-      return task.category === filteredCategories
+      return task.category === cat;
     }
-  })
+  });
+  setTasks(filteredTasks);
+}
+
 function handleNewTask(newTask){
   // Update the tasks state with the new task
   setTasks((tasks) => [...tasks, newTask])
 }
-console.log(tasks)
+
+
+function handleDeleteTask(deletedTask){
+ const updatedTasks = tasks.filter(task => deletedTask.text !== task.text)
+ setTasks(updatedTasks)
+}
 
   return (
     <div className="App">
       <h2>My tasks</h2>
       <CategoryFilter 
-      setFilteredCategories={setFilteredCategories} filteredCategories={filteredCategories} 
+      filteredCategories={filteredCategories} 
       CATEGORIES={CATEGORIES} 
-      TASKS={TASKS}/>
+      filterTaskByCat={filterTaskByCat}/>
       <NewTaskForm CATEGORIES={CATEGORIES}  onTaskFormSubmit={handleNewTask}/>
-      <TaskList CATEGORIES={CATEGORIES} TASKS={filteredTasks} setTasks={setTasks} tasks={tasks} />
+      <TaskList tasks={tasks} handleDeleteTask={handleDeleteTask} />
     </div>
   );
 }

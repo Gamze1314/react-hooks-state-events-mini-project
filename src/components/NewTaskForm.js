@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 function NewTaskForm({ CATEGORIES , onTaskFormSubmit }) { // CATEGORIES PASSED DOWN AS A PROP
-const filteredCats = CATEGORIES.filter((cat) => cat !== "All")
+const options = CATEGORIES.filter((cat) => cat !== "All")
  // only category names listed as options
 
   // STATE to manage form data
@@ -35,7 +35,7 @@ const filteredCats = CATEGORIES.filter((cat) => cat !== "All")
       <label>
         Category
         <select onChange={handleChange} name="category">
-          {filteredCats.map((category) => (
+          {options.map((category) => (
          <option key={category} value={category}>{category}</option>
         ))}
         </select>
